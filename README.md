@@ -15,7 +15,6 @@ Representa um filme com as seguintes propriedades:
 *   `diretor`: `String?` - Diretor do filme.
 *   `anoLancamento`: `int?` - Ano de lançamento do filme.
 *   `sinopse`: `String?` - Sinopse do filme.
-*   `paisOrigem`: `String?` - País de origem do filme.
 *   `generoId`: `int?` - ID do gênero ao qual o filme pertence (chave estrangeira para a tabela `generos`).
 
 ### `Genero`

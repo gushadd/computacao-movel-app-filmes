@@ -4,7 +4,6 @@ class Filme {
   String? diretor;
   int? anoLancamento;
   String? sinopse;
-  String? paisOrigem;
   int? generoId; // Chave estrangeira para o Gênero
 
   Filme({
@@ -13,7 +12,6 @@ class Filme {
     this.diretor,
     this.anoLancamento,
     this.sinopse,
-    this.paisOrigem,
     this.generoId,
   });
 
@@ -23,7 +21,6 @@ class Filme {
       'diretor': diretor,
       'anoLancamento': anoLancamento,
       'sinopse': sinopse,
-      'paisOrigem': paisOrigem,
       'generoId': generoId,
     };
     if (id != null) {
@@ -39,7 +36,6 @@ class Filme {
       diretor: map['diretor'],
       anoLancamento: map['anoLancamento'],
       sinopse: map['sinopse'],
-      paisOrigem: map['paisOrigem'],
       generoId: map['generoId'],
     );
   }
