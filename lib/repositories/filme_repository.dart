@@ -14,7 +14,6 @@ class FilmeRepository {
         diretor: filme.diretor,
         anoLancamento: filme.anoLancamento,
         sinopse: filme.sinopse,
-        paisOrigem: filme.paisOrigem,
         generoId: filme.generoId,
       );
     } catch (e) {
@@ -38,6 +37,11 @@ class FilmeRepository {
 
   Future<int> atualizarFilme(Filme filme) async {
     final db = await _databaseHelper.database;
-    return await db.update('filmes', filme.toMap(), where: 'id = ?', whereArgs: [filme.id]);
+    return await db.update(
+      'filmes',
+      filme.toMap(),
+      where: 'id = ?',
+      whereArgs: [filme.id],
+    );
   }
 }
