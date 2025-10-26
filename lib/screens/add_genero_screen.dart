@@ -117,7 +117,7 @@ class _AddGeneroScreenState extends State<AddGeneroScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final novoGenero = Genero(
-                      id: DateTime.now().millisecondsSinceEpoch,
+                      id: null,
                       nome: _nomeController.text,
                       descricao: _descricaoController.text,
                       publicoAlvo: _selectedPublicoAlvo,

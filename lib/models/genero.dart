@@ -10,13 +10,16 @@ class Genero {
   Genero({this.id, this.nome, this.descricao, this.publicoAlvo, this.cor});
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
+    final map = {
       'nome': nome,
       'descricao': descricao,
       'publicoAlvo': publicoAlvo,
       'cor': cor?.value,
     };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
   }
 
   factory Genero.fromMap(Map<String, dynamic> map) {

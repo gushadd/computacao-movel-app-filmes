@@ -1,3 +1,5 @@
+import 'package:app_filmes/repositories/filme_repository.dart';
+import 'package:app_filmes/repositories/genero_repository.dart';
 import 'package:app_filmes/screens/add_filme_screen.dart';
 import 'package:app_filmes/screens/add_genero_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +16,25 @@ class TelaInicial extends StatefulWidget {
 }
 
 class _TelaInicialState extends State<TelaInicial> {
-  final List<Filme> _filmes = [
-    Filme(id: 1, titulo: 'O Poderoso Chefão', diretor: 'Francis Ford Coppola', generoId: 1),
-    Filme(id: 2, titulo: 'O Senhor dos Anéis: A Sociedade do Anel', diretor: 'Peter Jackson', generoId: 2),
-    Filme(id: 3, titulo: 'Pulp Fiction', diretor: 'Quentin Tarantino', generoId: 1),
-    Filme(id: 4, titulo: 'O Iluminado', diretor: 'Stanley Kubrick', generoId: 3),
-    Filme(id: 5, titulo: 'Forrest Gump', diretor: 'Robert Zemeckis', generoId: 4),
-  ];
+  final FilmeRepository _filmeRepository = FilmeRepository();
+  final GeneroRepository _generoRepository = GeneroRepository();
+  List<Filme> _filmes = [];
+  List<Genero> _generos = [];
 
-  final List<Genero> _generos = [
-    Genero(id: 1, nome: 'Crime', cor: Colors.red),
-    Genero(id: 2, nome: 'Fantasia', cor: Colors.purple),
-    Genero(id: 3, nome: 'Terror', cor: Colors.grey),
-    Genero(id: 4, nome: 'Drama', cor: Colors.blue),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final filmes = await _filmeRepository.listarFilmes();
+    final generos = await _generoRepository.listarGeneros();
+    setState(() {
+      _filmes = filmes;
+      _generos = generos;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,47 @@ class _TelaInicialState extends State<TelaInicial> {
         itemCount: _filmes.length,
         itemBuilder: (context, index) {
           final filme = _filmes[index];
-          return FilmeListItem(filme: filme, generos: _generos);
+          return InkWell(
+            onTap: () async {
+              final filmeAtualizado = await Navigator.of(context).push<Filme>(
+                MaterialPageRoute(
+                  builder: (context) => AddFilmeScreen(generos: _generos, filme: filme),
+                ),
+              );
+              if (filmeAtualizado != null) {
+                await _filmeRepository.atualizarFilme(filmeAtualizado);
+                _loadData();
+              }
+            },
+            child: Dismissible(
+              key: ValueKey(filme.id),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) async {
+                await _filmeRepository.excluirFilme(filme.id!);
+                final filmeRemovido = _filmes.removeAt(index);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${filme.titulo} removido'),
+                    action: SnackBarAction(
+                      label: 'Desfazer',
+                      onPressed: () async {
+                        await _filmeRepository.salvarFilme(filmeRemovido);
+                        _loadData();
+                      },
+                    ),
+                  ),
+                );
+                _loadData();
+              },
+              background: Container(
+                color: Colors.red,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.centerRight,
+                child: const Icon(Icons.delete, color: Colors.white),
+              ),
+              child: FilmeListItem(filme: filme, generos: _generos),
+            ),
+          );
         },
       ),
       floatingActionButton: SpeedDial(
@@ -56,9 +103,8 @@ class _TelaInicialState extends State<TelaInicial> {
                 ),
               );
               if (novoFilme != null) {
-                setState(() {
-                  _filmes.add(novoFilme);
-                });
+                await _filmeRepository.salvarFilme(novoFilme);
+                _loadData();
               }
             },
           ),
@@ -72,9 +118,8 @@ class _TelaInicialState extends State<TelaInicial> {
                 ),
               );
               if (novoGenero != null) {
-                setState(() {
-                  _generos.add(novoGenero);
-                });
+                await _generoRepository.salvarGenero(novoGenero);
+                _loadData();
               }
             },
           ),

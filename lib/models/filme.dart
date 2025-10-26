@@ -18,8 +18,7 @@ class Filme {
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
+    final map = {
       'titulo': titulo,
       'diretor': diretor,
       'anoLancamento': anoLancamento,
@@ -27,6 +26,10 @@ class Filme {
       'paisOrigem': paisOrigem,
       'generoId': generoId,
     };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
   }
 
   factory Filme.fromMap(Map<String, dynamic> map) {

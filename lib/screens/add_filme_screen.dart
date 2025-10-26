@@ -5,8 +5,9 @@ import '../models/genero.dart';
 
 class AddFilmeScreen extends StatefulWidget {
   final List<Genero> generos;
+  final Filme? filme;
 
-  const AddFilmeScreen({super.key, required this.generos});
+  const AddFilmeScreen({super.key, required this.generos, this.filme});
 
   @override
   State<AddFilmeScreen> createState() => _AddFilmeScreenState();
@@ -21,10 +22,38 @@ class _AddFilmeScreenState extends State<AddFilmeScreen> {
   Genero? _selectedGenero;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.filme != null) {
+      _tituloController.text = widget.filme!.titulo ?? '';
+      _diretorController.text = widget.filme!.diretor ?? '';
+      _anoLancamentoController.text = widget.filme!.anoLancamento?.toString() ?? '';
+      _sinopseController.text = widget.filme!.sinopse ?? '';
+      _selectedGenero = widget.generos.firstWhere((g) => g.id == widget.filme!.generoId);
+    } else if (widget.generos.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Nenhum gênero cadastrado'),
+            content: const Text('Cadastre um gênero antes de adicionar um filme.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        ).then((_) => Navigator.of(context).pop());
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Adicionar Filme'),
+        title: Text(widget.filme == null ? 'Adicionar Filme' : 'Editar Filme'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -100,7 +129,7 @@ class _AddFilmeScreenState extends State<AddFilmeScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final novoFilme = Filme(
-                      id: DateTime.now().millisecondsSinceEpoch,
+                      id: widget.filme?.id,
                       titulo: _tituloController.text,
                       diretor: _diretorController.text,
                       anoLancamento: int.parse(_anoLancamentoController.text),
@@ -110,7 +139,7 @@ class _AddFilmeScreenState extends State<AddFilmeScreen> {
                     Navigator.of(context).pop(novoFilme);
                   }
                 },
-                child: const Text('Salvar'),
+                child: Text(widget.filme == null ? 'Salvar' : 'Atualizar'),
               ),
             ],
           ),
