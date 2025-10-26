@@ -3,7 +3,9 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/genero.dart';
 
 class AddGeneroScreen extends StatefulWidget {
-  const AddGeneroScreen({super.key});
+  final Genero? genero;
+
+  const AddGeneroScreen({super.key, this.genero});
 
   @override
   State<AddGeneroScreen> createState() => _AddGeneroScreenState();
@@ -17,10 +19,21 @@ class _AddGeneroScreenState extends State<AddGeneroScreen> {
   Color _selectedColor = Colors.blue;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.genero != null) {
+      _nomeController.text = widget.genero!.nome ?? '';
+      _descricaoController.text = widget.genero!.descricao ?? '';
+      _selectedPublicoAlvo = widget.genero!.publicoAlvo;
+      _selectedColor = widget.genero!.cor ?? Colors.blue;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Adicionar Gênero'),
+        title: Text(widget.genero == null ? 'Adicionar Gênero' : 'Editar Gênero'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -117,7 +130,7 @@ class _AddGeneroScreenState extends State<AddGeneroScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final novoGenero = Genero(
-                      id: null,
+                      id: widget.genero?.id,
                       nome: _nomeController.text,
                       descricao: _descricaoController.text,
                       publicoAlvo: _selectedPublicoAlvo,
