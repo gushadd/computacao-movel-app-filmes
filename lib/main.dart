@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:app_filmes/repositories/filme_repository.dart';
+import 'package:app_filmes/repositories/genero_repository.dart';
 import 'package:app_filmes/screens/tela_inicial.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -28,7 +30,10 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         colorSchemeSeed: Colors.blue,
       ),
-      home: const TelaInicial(),
+      home: TelaInicial(
+        filmeRepository: FilmeRepository(),
+        generoRepository: GeneroRepository(),
+      ),
     );
   }
 }

@@ -2,24 +2,22 @@ import 'package:app_filmes/models/filme.dart';
 import 'package:app_filmes/repositories/database_helper.dart';
 
 class FilmeRepository {
-  final DatabaseHelper _databaseHelper = DatabaseHelper();
+  final DatabaseHelper _databaseHelper;
+
+  FilmeRepository({DatabaseHelper? databaseHelper})
+      : _databaseHelper = databaseHelper ?? DatabaseHelper();
 
   Future<Filme> salvarFilme(Filme filme) async {
-    try {
-      final db = await _databaseHelper.database;
-      final id = await db.insert('filmes', filme.toMap());
-      return Filme(
-        id: id,
-        titulo: filme.titulo,
-        diretor: filme.diretor,
-        anoLancamento: filme.anoLancamento,
-        sinopse: filme.sinopse,
-        generoId: filme.generoId,
-      );
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+    final db = await _databaseHelper.database;
+    final id = await db.insert('filmes', filme.toMap());
+    return Filme(
+      id: id,
+      titulo: filme.titulo,
+      diretor: filme.diretor,
+      anoLancamento: filme.anoLancamento,
+      sinopse: filme.sinopse,
+      generoId: filme.generoId,
+    );
   }
 
   Future<List<Filme>> listarFilmes() async {
@@ -45,3 +43,4 @@ class FilmeRepository {
     );
   }
 }
+

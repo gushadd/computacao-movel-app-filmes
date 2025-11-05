@@ -10,22 +10,22 @@ O projeto possui duas classes modelo principais: `Filme` e `Genero`.
 
 Representa um filme com as seguintes propriedades:
 
-*   `id`: `int?` - Identificador único do filme (gerado automaticamente pelo banco de dados).
-*   `titulo`: `String?` - Título do filme.
-*   `diretor`: `String?` - Diretor do filme.
-*   `anoLancamento`: `int?` - Ano de lançamento do filme.
-*   `sinopse`: `String?` - Sinopse do filme.
-*   `generoId`: `int?` - ID do gênero ao qual o filme pertence (chave estrangeira para a tabela `generos`).
+-   `id`: `int?` - Identificador único do filme (gerado automaticamente pelo banco de dados).
+-   `titulo`: `String?` - Título do filme.
+-   `diretor`: `String?` - Diretor do filme.
+-   `anoLancamento`: `int?` - Ano de lançamento do filme.
+-   `sinopse`: `String?` - Sinopse do filme.
+-   `generoId`: `int?` - ID do gênero ao qual o filme pertence (chave estrangeira para a tabela `generos`).
 
 ### `Genero`
 
 Representa um gênero de filme com as seguintes propriedades:
 
-*   `id`: `int?` - Identificador único do gênero (gerado automaticamente pelo banco de dados).
-*   `nome`: `String?` - Nome do gênero.
-*   `descricao`: `String?` - Descrição do gênero.
-*   `publicoAlvo`: `String?` - Público-alvo do gênero (ex: Infantil, Adulto).
-*   `cor`: `Color?` - Cor associada ao gênero (utilizada na interface do usuário).
+-   `id`: `int?` - Identificador único do gênero (gerado automaticamente pelo banco de dados).
+-   `nome`: `String?` - Nome do gênero.
+-   `descricao`: `String?` - Descrição do gênero.
+-   `publicoAlvo`: `String?` - Público-alvo do gênero (ex: Infantil, Adulto).
+-   `cor`: `Color?` - Cor associada ao gênero (utilizada na interface do usuário).
 
 ## Biblioteca e Lógica de Persistência
 
@@ -39,8 +39,8 @@ Para suportar o desenvolvimento em plataformas desktop (Windows, Linux, macOS), 
 
 A classe `DatabaseHelper` é responsável por gerenciar a criação e abertura do banco de dados. Ela implementa o padrão Singleton para garantir que apenas uma instância do banco de dados seja aberta durante a vida útil do aplicativo.
 
-*   `_initDatabase()`: Este método inicializa o banco de dados, definindo o caminho do arquivo (`filmes.db`) e a versão. Ele também define a função `_onCreate` para criar as tabelas `generos` e `filmes` na primeira vez que o banco de dados é aberto.
-*   `_onCreate()`: Define os esquemas das tabelas `generos` e `filmes`, incluindo chaves primárias, tipos de dados e uma chave estrangeira para relacionar filmes a gêneros.
+-   `_initDatabase()`: Este método inicializa o banco de dados, definindo o caminho do arquivo (`filmes.db`) e a versão. Ele também define a função `_onCreate` para criar as tabelas `generos` e `filmes` na primeira vez que o banco de dados é aberto.
+-   `_onCreate()`: Define os esquemas das tabelas `generos` e `filmes`, incluindo chaves primárias, tipos de dados e uma chave estrangeira para relacionar filmes a gêneros.
 
 ## Fluxo de Dados nos Repositórios
 
@@ -84,17 +84,17 @@ factory Genero.fromMap(Map<String, dynamic> map) {
 
 ### `FilmeRepository`
 
-*   `salvarFilme(Filme filme)`: Insere um novo filme no banco de dados.
-*   `listarFilmes()`: Recupera todos os filmes do banco de dados.
-*   `atualizarFilme(Filme filme)`: Atualiza um filme existente.
-*   `excluirFilme(int id)`: Exclui um filme pelo seu ID.
+-   `salvarFilme(Filme filme)`: Insere um novo filme no banco de dados.
+-   `listarFilmes()`: Recupera todos os filmes do banco de dados.
+-   `atualizarFilme(Filme filme)`: Atualiza um filme existente.
+-   `excluirFilme(int id)`: Exclui um filme pelo seu ID.
 
 ### `GeneroRepository`
 
-*   `salvarGenero(Genero genero)`: Insere um novo gênero no banco de dados.
-*   `listarGeneros()`: Recupera todos os gêneros do banco de dados.
-*   `atualizarGenero(Genero genero)`: Atualiza um gênero existente.
-*   `excluirGenero(int id)`: Exclui um gênero pelo seu ID.
+-   `salvarGenero(Genero genero)`: Insere um novo gênero no banco de dados.
+-   `listarGeneros()`: Recupera todos os gêneros do banco de dados.
+-   `atualizarGenero(Genero genero)`: Atualiza um gênero existente.
+-   `excluirGenero(int id)`: Exclui um gênero pelo seu ID.
 
 ## Como Executar o Projeto
 
@@ -102,19 +102,21 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente de de
 
 ### Pré-requisitos
 
-*   **Flutter SDK**: Certifique-se de ter o Flutter SDK instalado e configurado. Você pode verificar sua instalação executando `flutter doctor` no terminal.
-*   **Android Studio / VS Code**: Um IDE com suporte a Flutter é recomendado.
-*   **Emulador Android / Dispositivo Físico**: Para executar o aplicativo em Android.
+-   **Flutter SDK**: Certifique-se de ter o Flutter SDK instalado e configurado. Você pode verificar sua instalação executando `flutter doctor` no terminal.
+-   **Android Studio / VS Code**: Um IDE com suporte a Flutter é recomendado.
+-   **Emulador Android / Dispositivo Físico**: Para executar o aplicativo em Android.
 
 ### Passos para Execução
 
 1.  **Clone o Repositório**:
+
     ```bash
     git clone <URL_DO_SEU_REPOSITORIO>
     cd app_filmes
     ```
 
 2.  **Obtenha as Dependências**:
+
     ```bash
     flutter pub get
     ```
@@ -135,12 +137,13 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente de de
     ```
 
 5.  **Limpe o Projeto (se necessário)**:
+
     ```bash
     flutter clean
     ```
 
 6.  **Execute o Aplicativo**:
-    *   **Emulador Android / Dispositivo Físico**:
+    -   **Emulador Android / Dispositivo Físico**:
         Certifique-se de que seu emulador ou dispositivo esteja conectado e visível para o Flutter (use `flutter devices`).
         ```bash
         flutter run
@@ -149,13 +152,36 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente de de
         ```bash
         flutter run -d <device_id>
         ```
-    *   **Desktop (Windows, Linux, macOS)**:
+    -   **Desktop (Windows, Linux, macOS)**:
         ```bash
         flutter run -d windows # ou linux, macos
         ```
-    *   **Web**:
+    -   **Web**:
         ```bash
         flutter run -d chrome
         ```
 
 Após a execução, o aplicativo será iniciado e você poderá começar a gerenciar seus filmes e gêneros.
+
+## Testes
+
+### Resultados dos Testes
+
+![Resultados dos testes](docs/images/testes-flutter.png)
+
+### Teste de Unidade Mais Complexo
+
+O teste de unidade mais complexo foi o `salvar um filme` no `filme_repository_test.dart`. Este teste é importante porque garante que a principal funcionalidade do repositório, que é salvar um novo filme no banco de dados, está funcionando corretamente. O teste utiliza um mock do `DatabaseHelper` para isolar o repositório do banco de dados real, garantindo que o teste seja rápido e confiável. O teste verifica se o método `salvarFilme` retorna um objeto `Filme` com o ID gerado pelo banco de dados.
+
+### Teste de Widget Mais Relevante
+
+O teste de widget mais relevante foi o `deve preencher o formulário de gênero e salvar` no `add_genero_form_test.dart`. Este teste é importante porque simula a interação do usuário com a tela de adicionar gênero, garantindo que o formulário está funcionando corretamente e que o método `salvarGenero` do repositório é chamado quando o usuário clica no botão "Salvar". O teste preenche os campos do formulário, seleciona um item no `DropdownButtonFormField` e clica no botão de salvar, verificando se o método do repositório foi chamado com os dados corretos.
+
+## Melhorias de "Clean Code"
+
+-   **Nomes de variáveis e métodos claros e consistentes**: O código foi revisado para garantir que os nomes de variáveis e métodos sejam claros e consistentes em todo o projeto.
+-   **Remoção de código comentado e não utilizado**: O código foi limpo para remover qualquer código comentado ou não utilizado.
+-   **Uso do modificador `const`**: O modificador `const` foi adicionado a widgets que não mudam para melhorar o desempenho.
+-   **Formatação consistente**: O comando `dart format .` foi executado para garantir uma formatação de código consistente em todo o projeto.
+-   **Remoção de `try-catch` redundantes**: Blocos `try-catch` que apenas imprimiam o erro e o relançavam foram removidos dos repositórios.
+-   **Correção de inconsistências no banco de dados**: A coluna `paisOrigem` foi removida da tabela `filmes` no `database_helper.dart` para corresponder ao modelo `Filme`.
