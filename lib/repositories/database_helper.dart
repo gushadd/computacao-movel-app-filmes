@@ -36,7 +36,6 @@ class DatabaseHelper {
         diretor TEXT,
         anoLancamento INTEGER,
         sinopse TEXT,
-        paisOrigem TEXT,
         generoId INTEGER,
         FOREIGN KEY (generoId) REFERENCES generos(id)
       )

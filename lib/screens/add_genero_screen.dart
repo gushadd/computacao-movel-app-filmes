@@ -1,11 +1,17 @@
+import 'package:app_filmes/repositories/genero_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/genero.dart';
 
 class AddGeneroScreen extends StatefulWidget {
+  final GeneroRepository generoRepository;
   final Genero? genero;
 
-  const AddGeneroScreen({super.key, this.genero});
+  const AddGeneroScreen({
+    super.key,
+    required this.generoRepository,
+    this.genero,
+  });
 
   @override
   State<AddGeneroScreen> createState() => _AddGeneroScreenState();
@@ -33,7 +39,9 @@ class _AddGeneroScreenState extends State<AddGeneroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.genero == null ? 'Adicionar Gênero' : 'Editar Gênero'),
+        title: Text(
+          widget.genero == null ? 'Adicionar Gênero' : 'Editar Gênero',
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -63,12 +71,15 @@ class _AddGeneroScreenState extends State<AddGeneroScreen> {
               ),
               DropdownButtonFormField<String>(
                 value: _selectedPublicoAlvo,
-                items: ['Infantil', 'Adolescente', 'Adulto', 'Todos os públicos']
-                    .map((label) => DropdownMenuItem(
-                          child: Text(label),
-                          value: label,
-                        ))
-                    .toList(),
+                items:
+                    ['Infantil', 'Adolescente', 'Adulto', 'Todos os públicos']
+                        .map(
+                          (label) => DropdownMenuItem(
+                            child: Text(label),
+                            value: label,
+                          ),
+                        )
+                        .toList(),
                 onChanged: (value) {
                   setState(() {
                     _selectedPublicoAlvo = value;
@@ -109,7 +120,7 @@ class _AddGeneroScreenState extends State<AddGeneroScreen> {
                                 Navigator.of(context).pop();
                               },
                               child: const Text('Salvar'),
-                            )
+                            ),
                           ],
                         ),
                       );
@@ -136,7 +147,12 @@ class _AddGeneroScreenState extends State<AddGeneroScreen> {
                       publicoAlvo: _selectedPublicoAlvo,
                       cor: _selectedColor,
                     );
-                    Navigator.of(context).pop(novoGenero);
+                    if (widget.genero == null) {
+                      widget.generoRepository.salvarGenero(novoGenero);
+                    } else {
+                      widget.generoRepository.atualizarGenero(novoGenero);
+                    }
+                    Navigator.of(context).pop();
                   }
                 },
                 child: const Text('Salvar'),
